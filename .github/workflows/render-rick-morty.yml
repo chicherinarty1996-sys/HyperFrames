@@ -1,0 +1,38 @@
+name: Render Rick and Morty meme video
+
+on:
+  push:
+    paths:
+      - "src/RickMortyMemes.jsx"
+      - "remotion/index.jsx"
+      - "public/rick-morty-beat.wav"
+      - ".github/workflows/render-rick-morty.yml"
+  workflow_dispatch:
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Remotion browser
+        run: npx remotion browser ensure
+
+      - name: Render MP4
+        run: mkdir -p out && npx remotion render remotion/index.jsx RickMortyMemes out/rick-morty-memes.mp4 --codec=h264
+
+      - name: Upload MP4
+        uses: actions/upload-artifact@v4
+        with:
+          name: rick-morty-memes
+          path: out/rick-morty-memes.mp4
+          retention-days: 7
