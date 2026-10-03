@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from "react";
-import { Film, Image as ImageIcon, Type, Music2, Captions, Play, Download, Plus, Settings2, Sparkles } from "lucide-react";
+import { Film, Image as ImageIcon, Type, Music2, Captions, Play, Download, Plus, Settings2, Sparkles, Wand2 } from "lucide-react";
 
 const initialLayers = [
   { id: "media", label: "Media", icon: ImageIcon, value: "Main visual" },
@@ -13,6 +13,7 @@ export default function App() {
   const [selected, setSelected] = useState("title");
   const [playing, setPlaying] = useState(false);
   const [duration, setDuration] = useState(15);
+  const [generated, setGenerated] = useState(false);
   const selectedLayer = useMemo(() => layers.find(l => l.id === selected), [layers, selected]);
 
   function addLayer() {
@@ -21,12 +22,45 @@ export default function App() {
     setSelected(id);
   }
 
+  function generateDemo() {
+    setLayers([
+      { id: "media", label: "Media", icon: ImageIcon, value: "Generated demo visual" },
+      { id: "title", label: "Title", icon: Type, value: "Create. Animate. Publish." },
+      { id: "captions", label: "Captions", icon: Captions, value: "Your first HyperFrames test is ready." },
+      { id: "audio", label: "Audio", icon: Music2, value: "Demo soundtrack" }
+    ]);
+    setSelected("title");
+    setDuration(12);
+    setGenerated(true);
+    setPlaying(true);
+  }
+
+  function exportProject() {
+    const project = {
+      name: "HyperFrames demo project",
+      composition: { width: 1080, height: 1920, fps: 30, durationInSeconds: duration },
+      layers: layers.map(({ id, label, value }) => ({ id, label, value })),
+      generatedDemo: generated,
+      exportedAt: new Date().toISOString()
+    };
+    const blob = new Blob([JSON.stringify(project, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "hyperframes-demo-project.json";
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <main className="studio-shell">
       <header className="topbar">
         <div className="brand"><div className="brand-mark">H</div><div><strong>HyperFrames</strong><span>Video Studio</span></div></div>
         <div className="project-name">Untitled vertical project</div>
-        <div className="top-actions"><button className="ghost"><Settings2 size={16}/> Settings</button><button className="export"><Download size={16}/> Export MP4</button></div>
+        <div className="top-actions">
+          <button className="ghost" onClick={exportProject}><Download size={16}/> Save project</button>
+          <button className="export" onClick={generateDemo}><Wand2 size={16}/> Generate demo</button>
+        </div>
       </header>
 
       <section className="workspace">
@@ -40,7 +74,7 @@ export default function App() {
               </button>
             })}
           </div>
-          <div className="skill-card"><Sparkles size={16}/><div><b>AI workflow</b><small>Design + motion skills enabled</small></div></div>
+          <div className="skill-card"><Sparkles size={16}/><div><b>AI workflow</b><small>Demo generation pipeline ready</small></div></div>
         </aside>
 
         <section className="canvas-area">
@@ -48,7 +82,7 @@ export default function App() {
           <div className="preview-stage">
             <div className={playing ? "video-frame playing" : "video-frame"}>
               <div className="grain"></div>
-              <div className="preview-copy"><small>HYPERFRAMES</small><h1>{selectedLayer?.value || "Your story starts here"}</h1><p>Build a polished vertical video.</p></div>
+              <div className="preview-copy"><small>HYPERFRAMES</small><h1>{selectedLayer?.value || "Your story starts here"}</h1><p>{generated ? "Demo composition generated successfully." : "Build a polished vertical video."}</p></div>
             </div>
           </div>
           <div className="transport">
@@ -63,7 +97,7 @@ export default function App() {
           <label>Layer name<input value={selectedLayer?.label || ""} readOnly /></label>
           <label>Content<textarea value={selectedLayer?.value || ""} onChange={e => setLayers(prev => prev.map(l => l.id === selected ? {...l, value:e.target.value} : l))}/></label>
           <label>Animation<select defaultValue="smooth"><option value="smooth">Smooth reveal</option><option value="fade">Fade</option><option value="scale">Scale in</option></select></label>
-          <div className="render-card"><Film size={18}/><div><b>Remotion render</b><small>Ready for MP4 export pipeline</small></div></div>
+          <div className="render-card"><Film size={18}/><div><b>{generated ? "Demo render ready" : "Remotion render"}</b><small>{generated ? "Run the demo renderer to create MP4" : "Ready for first MP4 test"}</small></div></div>
         </aside>
       </section>
     </main>
