@@ -1,0 +1,21 @@
+name: Render POV Rick Garage
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm install
+      - run: mkdir -p out
+      - run: npm run render:pov
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pov-garage-rick-mp4
+          path: out/pov-garage-rick.mp4
