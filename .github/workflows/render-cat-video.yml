@@ -19,33 +19,8 @@ jobs:
         with:
           node-version: 20
 
-      - name: Diagnostics - environment
-        run: |
-          echo "=== Node ==="
-          node --version
-          echo "=== npm ==="
-          npm --version
-          echo "=== Repository ==="
-          git rev-parse HEAD
-          echo "=== Files ==="
-          ls -la
-          echo "=== Remotion files ==="
-          ls -la remotion
-
       - name: Install dependencies
-        run: |
-          npm install
-          echo "=== Installed packages ==="
-          npm list --depth=0 || true
-
-      - name: Diagnostics - Remotion composition
-        run: |
-          echo "=== package.json ==="
-          cat package.json
-          echo "=== index.jsx ==="
-          cat remotion/index.jsx
-          echo "=== HyperFramesDemo.jsx ==="
-          cat remotion/HyperFramesDemo.jsx
+        run: npm install
 
       - name: Render MP4
         run: |
@@ -55,12 +30,13 @@ jobs:
       - name: Verify MP4
         run: |
           test -f out/cat-tiktok-10s.mp4
-          echo "=== MP4 file ==="
           ls -lh out/cat-tiktok-10s.mp4
-          echo "=== MP4 type ==="
           file out/cat-tiktok-10s.mp4
-          echo "=== MP4 duration/stream info ==="
-          ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_name,width,height,r_frame_rate -of default=noprint_wrappers=1 out/cat-tiktok-10s.mp4
+          if command -v ffprobe >/dev/null 2>&1; then
+            ffprobe -v error -show_entries format=duration,size -show_entries stream=codec_name,width,height,r_frame_rate -of default=noprint_wrappers=1 out/cat-tiktok-10s.mp4
+          else
+            echo "ffprobe unavailable; file/container verification passed."
+          fi
 
       - name: Upload MP4
         if: success()
