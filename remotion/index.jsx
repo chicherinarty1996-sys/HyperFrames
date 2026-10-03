@@ -1,5 +1,5 @@
 import React from "react";
-import { Composition } from "remotion";
+import { Composition, registerRoot } from "remotion";
 import { HyperFramesDemo } from "./HyperFramesDemo";
 
 export const RemotionRoot = () => (
@@ -13,3 +13,5 @@ export const RemotionRoot = () => (
     defaultProps={{ title: "Create. Animate. Publish." }}
   />
 );
+
+registerRoot(RemotionRoot);
