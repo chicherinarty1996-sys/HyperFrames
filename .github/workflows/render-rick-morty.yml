@@ -46,7 +46,7 @@ jobs:
           mkdir -p out
           npx remotion render remotion/index.jsx RickMortyMemes out/rick-morty-memes.mp4 --codec=h264 --log=verbose
           test -s out/rick-morty-memes.mp4
-          ffprobe -v error -show_entries format=duration,size -of default=noprint_wrappers=1 out/rick-morty-memes.mp4
+          stat -c "MP4 size: %s bytes" out/rick-morty-memes.mp4
 
       - name: Upload MP4 artifact
         uses: actions/upload-artifact@v4
