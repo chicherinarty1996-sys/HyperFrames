@@ -1,5 +1,5 @@
 import React from "react";
-import {AbsoluteFill, Audio, Img, Sequence, interpolate, useCurrentFrame, staticFile} from "remotion";
+import {AbsoluteFill, Img, Sequence, interpolate, useCurrentFrame} from "remotion";
 
 const memes = [
   {
@@ -29,7 +29,7 @@ const memes = [
 ];
 
 const FPS = 30;
-const SLIDE = 60;
+const SLIDE = 42;
 
 function Slide({item, index}) {
   const frame = useCurrentFrame();
@@ -44,14 +44,14 @@ function Slide({item, index}) {
       <div style={{
         position:"absolute", left:48, right:48, top:52, display:"flex",
         justifyContent:"space-between", alignItems:"center", zIndex:5,
-        fontSize:22, fontWeight:800, letterSpacing:3, opacity:.78
+        fontSize:20, fontWeight:900, letterSpacing:2.5, opacity:.82
       }}>
         <span>РИК И МОРТИ</span>
         <span>{String(index+1).padStart(2,"0")}/06</span>
       </div>
 
       <div style={{
-        position:"absolute", left:42, right:42, top:140, bottom:245,
+        position:"absolute", left:42, right:42, top:155, bottom:285,
         transform:`translateX(${enter}px) translateY(${cardY}px) scale(${scale})`,
         display:"flex", alignItems:"center", justifyContent:"center",
         borderRadius:30, overflow:"hidden", background:"#11161a",
@@ -62,12 +62,12 @@ function Slide({item, index}) {
       </div>
 
       <div style={{
-        position:"absolute", left:65, right:65, bottom:104, textAlign:"center",
-        fontSize:28, lineHeight:1.2, fontWeight:800, opacity:.96,
+        position:"absolute", left:65, right:65, bottom:125, textAlign:"center",
+        fontSize:32, lineHeight:1.12, fontWeight:900, opacity:.96,
         textShadow:"0 3px 12px #000", zIndex:6
       }}>{item.label}</div>
 
-      <div style={{position:"absolute", left:50, right:50, bottom:52, height:5, background:"rgba(255,255,255,.14)", borderRadius:99}}>
+      <div style={{position:"absolute", left:50, right:50, bottom:52, height:4, background:"rgba(255,255,255,.14)", borderRadius:99}}>
         <div style={{height:"100%", width:`${((index+1)/memes.length)*100}%`, background:"#fff", borderRadius:99}} />
       </div>
     </AbsoluteFill>
@@ -76,7 +76,6 @@ function Slide({item, index}) {
 
 export const RickMortyMemes = () => (
   <AbsoluteFill>
-    <Audio src={staticFile("rick-morty-beat.wav")} volume={0.18} loop />
     {memes.map((item, i) => (
       <Sequence key={item.src} from={i * SLIDE} durationInFrames={SLIDE}>
         <Slide item={item} index={i} />
