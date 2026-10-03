@@ -15,7 +15,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - run: npm install
       - run: npm run build
 
   render-demo:
@@ -27,7 +27,7 @@ jobs:
         with:
           node-version: 20
           cache: npm
-      - run: npm ci
+      - run: npm install
       - run: mkdir -p out
       - run: npm run render:demo
       - uses: actions/upload-artifact@v4
