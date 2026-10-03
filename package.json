@@ -4,17 +4,22 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "render:demo": "remotion render remotion/index.jsx HyperFramesDemo out/hyperframes-demo.mp4",
+    "render:preview": "remotion still remotion/index.jsx HyperFramesDemo out/hyperframes-preview.png --frame=90"
   },
   "dependencies": {
+    "@remotion/cli": "latest",
+    "@remotion/player": "latest",
     "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
+    "lucide-react": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "lucide-react": "latest"
+    "remotion": "latest",
+    "typescript": "latest",
+    "vite": "latest"
   },
   "devDependencies": {}
 }
