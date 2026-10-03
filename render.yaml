@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: hyperframes-render
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    envVars:
+      - key: RENDER_TOKEN
+        sync: false
