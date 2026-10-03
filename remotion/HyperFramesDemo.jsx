@@ -1,30 +1,54 @@
 import React from "react";
 import { AbsoluteFill, interpolate, useCurrentFrame } from "remotion";
 
-export const HyperFramesDemo = ({ title }) => {
+const Cat = ({ x, y, scale, tilt, delay, mood }) => {
   const frame = useCurrentFrame();
-  const opacity = interpolate(frame, [0, 30, 60], [0, 1, 1], { extrapolateRight: "clamp" });
-  const scale = interpolate(frame, [0, 60], [0.92, 1], { extrapolateRight: "clamp" });
-  const progress = Math.min(1, frame / 360);
+  const bob = Math.sin((frame - delay) / 7) * 8;
+  const s = interpolate(frame, [delay, delay + 15], [0.7, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return (
+    <div style={{
+      position: "absolute", left: x, top: y, transform: `translateY(${bob}px) rotate(${tilt}deg) scale(${scale * s})`,
+      transformOrigin: "center bottom", fontSize: 250, lineHeight: 1,
+      filter: "drop-shadow(0 18px 18px rgba(0,0,0,.25))"
+    }}>
+      {mood}
+    </div>
+  );
+};
+
+export const HyperFramesDemo = () => {
+  const frame = useCurrentFrame();
+  const intro = interpolate(frame, [0, 24], [0, 1], { extrapolateRight: "clamp" });
+  const outro = interpolate(frame, [270, 299], [1, 0], { extrapolateRight: "clamp" });
+  const progress = Math.min(1, frame / 299);
 
   return (
     <AbsoluteFill style={{
-      background: "radial-gradient(circle at 50% 25%, #26365a 0%, #0b0d13 45%, #05060a 100%)",
-      color: "white",
-      fontFamily: "Inter, Arial, sans-serif",
-      overflow: "hidden"
+      background: "linear-gradient(160deg, #ffd6e7 0%, #fff1c7 48%, #c9f2ff 100%)",
+      color: "#171717", fontFamily: "Arial, sans-serif", overflow: "hidden"
     }}>
-      <AbsoluteFill style={{ opacity: 0.12, backgroundImage: "linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px)", backgroundSize: "72px 72px" }} />
-      <div style={{ position: "absolute", top: 180, left: 90, fontSize: 28, letterSpacing: 8, opacity: 0.65 }}>HYPERFRAMES</div>
-      <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", padding: 90 }}>
-        <div style={{ opacity, transform: `scale(${scale})`, textAlign: "center" }}>
-          <div style={{ fontSize: 30, marginBottom: 36, opacity: 0.7 }}>AI VIDEO STUDIO</div>
-          <div style={{ fontSize: 112, lineHeight: 1.02, fontWeight: 800, letterSpacing: -5 }}>{title}</div>
-          <div style={{ marginTop: 48, fontSize: 32, opacity: 0.72 }}>First generated composition • 1080 × 1920</div>
-        </div>
+      <div style={{ position:"absolute", top:90, left:70, right:70, display:"flex", justifyContent:"space-between", alignItems:"center", opacity:intro }}>
+        <div style={{ fontSize:30, fontWeight:900, letterSpacing:4 }}>CAT MODE</div>
+        <div style={{ fontSize:25, fontWeight:700, opacity:.65 }}>10 SEC • 9:16</div>
       </div>
-      <div style={{ position: "absolute", left: 90, right: 90, bottom: 110, height: 6, borderRadius: 999, background: "rgba(255,255,255,.16)" }}>
-        <div style={{ width: `${progress * 100}%`, height: "100%", borderRadius: 999, background: "white" }} />
+
+      <div style={{ position:"absolute", inset:0, opacity:intro*outro }}>
+        <Cat x={-35} y={570} scale={1.05} tilt={-7} delay={0} mood="🐱" />
+        <Cat x={330} y={820} scale={0.82} tilt={6} delay={20} mood="😺" />
+        <Cat x={690} y={520} scale={1.0} tilt={-4} delay={42} mood="😹" />
+        <Cat x={420} y={1190} scale={0.72} tilt={4} delay={65} mood="😼" />
+      </div>
+
+      <div style={{
+        position:"absolute", left:55, right:55, bottom:230, textAlign:"center",
+        opacity:intro*outro, transform:`translateY(${interpolate(frame,[0,30],[50,0],{extrapolateRight:"clamp"})}px)`
+      }}>
+        <div style={{ fontSize:76, fontWeight:950, lineHeight:1.02 }}>КОГДА КОТ<br/>УВИДЕЛ ПАКЕТИК</div>
+        <div style={{ marginTop:25, fontSize:34, fontWeight:700, opacity:.72 }}>и забыл, что ты его хозяин</div>
+      </div>
+
+      <div style={{ position:"absolute", left:70, right:70, bottom:105, height:10, borderRadius:20, background:"rgba(0,0,0,.12)" }}>
+        <div style={{ width:`${progress*100}%`, height:"100%", borderRadius:20, background:"#171717" }} />
       </div>
     </AbsoluteFill>
   );
