@@ -1,16 +1,18 @@
 import React from "react";
-import { Composition, registerRoot } from "remotion";
-import { HyperFramesDemo } from "./HyperFramesDemo";
+import {Composition, registerRoot} from "remotion";
+import {RickMortyMemes} from "../src/RickMortyMemes";
 
-export const RemotionRoot = () => (
-  <Composition
-    id="HyperFramesDemo"
-    component={HyperFramesDemo}
-    durationInFrames={300}
-    fps={30}
-    width={1080}
-    height={1920}
-  />
+const Root = () => (
+  <>
+    <Composition
+      id="RickMortyMemes"
+      component={RickMortyMemes}
+      durationInFrames={360}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  </>
 );
 
-registerRoot(RemotionRoot);
+registerRoot(Root);
