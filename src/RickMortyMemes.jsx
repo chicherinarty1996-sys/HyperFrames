@@ -1,5 +1,5 @@
 import React from "react";
-import {AbsoluteFill, Audio, Img, Sequence, interpolate, useCurrentFrame, useVideoConfig} from "remotion";
+import {AbsoluteFill, Audio, Img, Sequence, interpolate, useCurrentFrame, staticFile} from "remotion";
 
 const memes = [
   {
@@ -76,7 +76,7 @@ function Slide({item, index}) {
 
 export const RickMortyMemes = () => (
   <AbsoluteFill>
-    <Audio src={require("../public/rick-morty-beat.wav")} volume={0.18} loop />
+    <Audio src={staticFile("rick-morty-beat.wav")} volume={0.18} loop />
     {memes.map((item, i) => (
       <Sequence key={item.src} from={i * SLIDE} durationInFrames={SLIDE}>
         <Slide item={item} index={i} />
