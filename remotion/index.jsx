@@ -6,11 +6,10 @@ export const RemotionRoot = () => (
   <Composition
     id="HyperFramesDemo"
     component={HyperFramesDemo}
-    durationInFrames={360}
+    durationInFrames={300}
     fps={30}
     width={1080}
     height={1920}
-    defaultProps={{ title: "Create. Animate. Publish." }}
   />
 );
 
