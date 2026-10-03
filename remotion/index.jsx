@@ -7,7 +7,7 @@ const Root = () => (
     <Composition
       id="RickMortyMemes"
       component={RickMortyMemes}
-      durationInFrames={360}
+      durationInFrames={252}
       fps={30}
       width={1080}
       height={1920}
