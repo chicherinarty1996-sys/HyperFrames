@@ -37,6 +37,15 @@ function startRender() {
 }
 
 http.createServer((req, res) => {
+  console.log(`[HTTP] ${req.method} ${req.url}`);
+
+  if (req.method === "GET" && req.url === "/")
+    return send(res, 200, {
+      ok: true,
+      service: "HyperFrames Render",
+      endpoints: ["/health", "/render", "/video"]
+    });
+
   if (req.method === "GET" && req.url === "/health")
     return send(res, 200, {ok: true, active, last});
 
