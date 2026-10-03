@@ -8,18 +8,11 @@
     "build": "vite build",
     "preview": "vite preview",
     "render:demo": "remotion render remotion/index.jsx HyperFramesDemo out/hyperframes-demo.mp4",
-    "render:preview": "remotion still remotion/index.jsx HyperFramesDemo out/hyperframes-preview.png --frame=90"
+    "render:preview": "remotion still remotion/index.jsx HyperFramesDemo out/hyperframes-preview.png --frame=90",
+    "render:pov": "remotion render src/index.jsx POVGarage out/pov-garage-rick.mp4 --codec=h264"
   },
   "dependencies": {
-    "@remotion/cli": "latest",
-    "@remotion/player": "latest",
-    "@vitejs/plugin-react": "latest",
-    "lucide-react": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "remotion": "latest",
-    "typescript": "latest",
-    "vite": "latest"
+    "@remotion/cli": "latest", "@remotion/player": "latest", "@vitejs/plugin-react": "latest", "lucide-react": "latest", "react": "latest", "react-dom": "latest", "remotion": "latest", "typescript": "latest", "vite": "latest"
   },
   "devDependencies": {}
 }
